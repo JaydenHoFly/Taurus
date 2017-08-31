@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
@@ -27,6 +28,7 @@ import java.util.Random;
  */
 public class RefreshView extends Drawable implements Drawable.Callback, Animatable {
 
+    private static final String TAG = "RefreshView";
     private static final float SCALE_START_PERCENT = 0.5f;
     private static final int ANIMATION_DURATION = 1000;
 
@@ -421,6 +423,7 @@ public class RefreshView extends Drawable implements Drawable.Callback, Animatab
     private void drawJet(Canvas canvas) {
         Matrix matrix = mMatrix;
         matrix.reset();
+        Log.d(TAG,"drawJet matrix1: " + matrix.toString());
 
         float dragPercent = mPercent;
         float rotateAngle = 0;
@@ -451,9 +454,10 @@ public class RefreshView extends Drawable implements Drawable.Callback, Animatab
         }
 
         matrix.setTranslate(offsetX, offsetY);
-
+        Log.d(TAG,"drawJet matrix2: " + matrix.toString());
         if (dragPercent == 1.0f) {
             matrix.preRotate(rotateAngle, mJetWidthCenter, mJetHeightCenter);
+            Log.d(TAG,"drawJet matrix3: " + matrix.toString());
         }
 
         canvas.drawBitmap(mJet, matrix, null);

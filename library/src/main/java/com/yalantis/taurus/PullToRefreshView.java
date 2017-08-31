@@ -98,6 +98,7 @@ public class PullToRefreshView extends ViewGroup {
     @Override
     public boolean onInterceptTouchEvent(@NonNull MotionEvent ev) {
 
+        //判断子控件是否还可以滑动，如果还可以滑动，就不要拦截触摸事件
         if (!isEnabled() || canChildScrollUp() || mRefreshing) {
             return false;
         }
@@ -107,6 +108,7 @@ public class PullToRefreshView extends ViewGroup {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 setTargetOffsetTop(0, true);
+                //将最后触摸屏幕的触摸点设置为有效触摸点，之前的触摸点不再能控制控件。
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
                 mIsBeingDragged = false;
                 final float initialMotionY = getMotionEventY(ev, mActivePointerId);
@@ -134,6 +136,7 @@ public class PullToRefreshView extends ViewGroup {
                 mActivePointerId = INVALID_POINTER;
                 break;
             case MotionEventCompat.ACTION_POINTER_UP:
+                //当有触摸点抬起时，从剩余的触摸点选出有效触摸点
                 onSecondaryPointerUp(ev);
                 break;
         }
